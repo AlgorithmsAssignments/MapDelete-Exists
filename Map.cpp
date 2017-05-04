@@ -31,7 +31,9 @@ int Map::get(string key)
   {
     pair<string, int>* current_pair = (*v)[i];
     if(current_pair->first == key)
+    {
       return current_pair->second;
+    }
   }
 
   return -1;
@@ -39,9 +41,25 @@ int Map::get(string key)
 
 bool Map::exists(string key)
 {
-  return false;
+  vector< pair<string, int>* > * v = array[hash(key)];
+
+  return get(key) != -1;
 }
 
 void Map::remove(string key)
 {
+  if(exists(key))
+  {
+    vector< pair<string, int>* > * v =  array[hash(key)];
+
+    for(unsigned int i = 0; i < v->size(); ++i)
+    {
+      pair<string, int>* current_pair = (*v)[i];
+      if(current_pair->first == key)
+      {
+        v->erase(v->begin() + i);
+        return;
+      }
+    }
+  }
 }
